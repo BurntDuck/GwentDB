@@ -14,7 +14,6 @@ namespace GwentDB
         }
 
         public int Id { get; set; }
-        public string Owner { get; set; }
         public List<Card> Cards { get; set; }
     }
 }

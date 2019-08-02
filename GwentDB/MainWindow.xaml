@@ -45,6 +45,14 @@
             VerticalAlignment="Top"
             Width="75"
             Click="ButtonAddCard_Click" />
+        <Button
+            x:Name="buttonRemoveCard"
+            Content="Remove Card"
+            HorizontalAlignment="Left"
+            Margin="540,60,0,0"
+            VerticalAlignment="Top"
+            Width="80"
+            Click="ButtonRemoveCard_Click" />
         <Label
             Content="Faction"
             HorizontalAlignment="Left"
@@ -123,6 +131,14 @@
             Width="75"
             Margin="540,236,0,0"
             Click="ButtonAddAbility_Click" />
+        <Button
+            x:Name="buttonRemoveAbility"
+            Content="Remove Ability"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Width="85"
+            Margin="540,264,0,0"
+            Click="ButtonRemoveAbility_Click" />
         <ComboBox
             x:Name="comboBoxAbilities"
             DisplayMemberPath="Name"
@@ -145,11 +161,12 @@
             VerticalAlignment="Top"
             Width="120" />
         <Button
+            x:Name="buttonClear"
             Content="Clear"
             HorizontalAlignment="Right"
             Margin="5"
             VerticalAlignment="Bottom"
             Width="75"
-            Click="Button_Click" />
+            Click="ButtonClear_Click" />
     </Grid>
 </Window>

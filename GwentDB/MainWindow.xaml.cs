@@ -46,6 +46,15 @@ namespace GwentDB
             }
         }
 
+        private void ButtonRemoveCard_Click(object sender, RoutedEventArgs e)
+        {
+            if(dataGridCards.SelectedItem != null)
+            {
+                context.Cards.Remove((Card)dataGridCards.SelectedItem);
+                context.SaveChanges();
+            }
+        }
+
         private void ButtonAddAbility_Click(object sender, RoutedEventArgs e)
         {
             if (!string.IsNullOrEmpty(textBoxAbility.Text))
@@ -57,7 +66,16 @@ namespace GwentDB
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void ButtonRemoveAbility_Click(object sender, RoutedEventArgs e)
+        {
+            if(comboBoxAbilities.SelectedItem != null)
+            {
+                context.Abilities.Remove((Ability)comboBoxAbilities.SelectedItem);
+                context.SaveChanges();
+            }
+        }
+
+        private void ButtonClear_Click(object sender, RoutedEventArgs e)
         {
             if (MessageBox.Show("Are you sure, you want to clear the database?", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
