@@ -5,14 +5,16 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GwentDB"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="GwentDB" Height="450" Width="800">
     <Grid>
         <DataGrid
             x:Name="dataGridCards"
             AutoGenerateColumns="False"
+            Height="200"
             HorizontalAlignment="Left"
+            IsReadOnly="True"
             Margin="10"
-            VerticalAlignment="Stretch"
+            VerticalAlignment="Top"
             Width="400">
             <DataGrid.Columns>
                 <DataGridTextColumn
@@ -28,12 +30,126 @@
                     Header="Strength"
                     Binding="{Binding Strength}" />
                 <DataGridTextColumn
-                    Header="Abilities"
-                    Binding="{Binding Abilities}" />
+                    Header="Ability"
+                    Binding="{Binding Ability.Name}" />
                 <DataGridTextColumn
                     Header="Type"
-                    Binding="{Binding NTypeme}" />
+                    Binding="{Binding Type}" />
             </DataGrid.Columns>
         </DataGrid>
+        <Button
+            x:Name="buttonAddCard"
+            Content="Add Card"
+            HorizontalAlignment="Left"
+            Margin="540,36,0,0"
+            VerticalAlignment="Top"
+            Width="75"
+            Click="ButtonAddCard_Click" />
+        <Label
+            Content="Faction"
+            HorizontalAlignment="Left"
+            Margin="415,10,0,0"
+            VerticalAlignment="Top" />
+        <TextBox
+            x:Name="textBoxFaction"
+            HorizontalAlignment="Left"
+            Height="23"
+            Margin="415,36,0,0"
+            TextWrapping="Wrap"
+            Text=""
+            VerticalAlignment="Top"
+            Width="120" />
+        <Label
+            Content="Name"
+            HorizontalAlignment="Left"
+            Margin="415,60,0,0"
+            VerticalAlignment="Top" />
+        <TextBox
+            x:Name="textBoxName"
+            HorizontalAlignment="Left"
+            Height="23"
+            Margin="415,86,0,0"
+            TextWrapping="Wrap"
+            Text=""
+            VerticalAlignment="Top"
+            Width="120" />
+        <Label
+            Content="Position"
+            HorizontalAlignment="Left"
+            Margin="415,110,0,0"
+            VerticalAlignment="Top" />
+        <TextBox
+            x:Name="textBoxPosition"
+            HorizontalAlignment="Left"
+            Height="23"
+            Margin="415,136,0,0"
+            TextWrapping="Wrap"
+            Text=""
+            VerticalAlignment="Top"
+            Width="120" />
+        <Label
+            Content="Strength"
+            HorizontalAlignment="Left"
+            Margin="415,160,0,0"
+            VerticalAlignment="Top" />
+        <TextBox
+            x:Name="textBoxStrength"
+            HorizontalAlignment="Left"
+            Height="23"
+            Margin="415,186,0,0"
+            TextWrapping="Wrap"
+            Text=""
+            VerticalAlignment="Top"
+            Width="120" />
+        <Label
+            Content="Abilities"
+            HorizontalAlignment="Left"
+            Margin="415,210,0,0"
+            VerticalAlignment="Top" />
+        <TextBox
+            x:Name="textBoxAbility"
+            HorizontalAlignment="Left"
+            Height="23"
+            Margin="415,236,0,0"
+            TextWrapping="Wrap"
+            Text=""
+            VerticalAlignment="Top"
+            Width="120" />
+        <Button
+            x:Name="buttonAddAbility"
+            Content="Add Ability"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Width="75"
+            Margin="540,236,0,0"
+            Click="ButtonAddAbility_Click" />
+        <ComboBox
+            x:Name="comboBoxAbilities"
+            DisplayMemberPath="Name"
+            HorizontalAlignment="Left"
+            Margin="415,264,0,0"
+            VerticalAlignment="Top"
+            Width="120" />
+        <Label
+            Content="Type"
+            HorizontalAlignment="Left"
+            Margin="415,290,0,0"
+            VerticalAlignment="Top" />
+        <TextBox
+            x:Name="textBoxType"
+            HorizontalAlignment="Left"
+            Height="23"
+            Margin="415,316,0,0"
+            TextWrapping="Wrap"
+            Text=""
+            VerticalAlignment="Top"
+            Width="120" />
+        <Button
+            Content="Clear"
+            HorizontalAlignment="Right"
+            Margin="5"
+            VerticalAlignment="Bottom"
+            Width="75"
+            Click="Button_Click" />
     </Grid>
 </Window>
