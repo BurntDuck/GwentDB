@@ -12,10 +12,7 @@ namespace GwentDB
         /// <summary>
         /// Database context class for Entity Framework.
         /// </summary>
-        public GwentContext() : base("GwentDB")
-        {
-            Database.SetInitializer<GwentContext>(new DropCreateDatabaseIfModelChanges<GwentContext>());
-        }
+        public GwentContext() : base("GwentDB") => Database.SetInitializer<GwentContext>(new DropCreateDatabaseIfModelChanges<GwentContext>());
 
         /// <summary>
         /// The database card table.

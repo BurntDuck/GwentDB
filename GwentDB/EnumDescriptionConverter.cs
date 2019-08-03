@@ -12,27 +12,40 @@ namespace GwentDB
 {
     public class EnumDescriptionConverter : IValueConverter
     {
-        private string GetEnumDescription(Enum enumObj)
+        /// <summary>
+        /// Get the value of the description attribute of an enum.
+        /// </summary>
+        /// <param name="enumObject">The enum to be converted.</param>
+        /// <returns></returns>
+        private string GetEnumDescription(Enum enumObject)
         {
-            if(enumObj == null)
+            if(enumObject == null)
             {
                 return string.Empty;
             }
-            FieldInfo fieldInfo = enumObj.GetType().GetField(enumObj.ToString());
+            FieldInfo fieldInfo = enumObject.GetType().GetField(enumObject.ToString());
 
-            object[] attribArray = fieldInfo.GetCustomAttributes(false);
+            object[] attributeArray = fieldInfo.GetCustomAttributes(false);
 
-            if(attribArray.Length == 0)
+            if(attributeArray.Length == 0)
             {
-                return enumObj.ToString();
+                return enumObject.ToString();
             }
             else
             {
-                DescriptionAttribute attrib = attribArray[0] as DescriptionAttribute;
-                return attrib.Description;
+                DescriptionAttribute attribute = attributeArray[0] as DescriptionAttribute;
+                return attribute.Description;
             }
         }
 
+        /// <summary>
+        /// Convert the value of an object.
+        /// </summary>
+        /// <param name="value">The value to be converted.</param>
+        /// <param name="targetType">The targeted type of the conversion.</param>
+        /// <param name="parameter">Parameter for the conversion.</param>
+        /// <param name="culture">Culture info for the conversion.</param>
+        /// <returns></returns>
         object IValueConverter.Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             Enum myEnum = (Enum)value;
@@ -41,16 +54,9 @@ namespace GwentDB
                 return null;
             }
             string description = GetEnumDescription(myEnum);
-            if(!string.IsNullOrEmpty(description))
-            {
-                return description;
-            }
-            return myEnum.ToString();
+            return !string.IsNullOrEmpty(description) ? description : myEnum.ToString();
         }
 
-        object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return string.Empty;
-        }
+        object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo culture) => string.Empty;
     }
 }

@@ -87,6 +87,16 @@ namespace GwentDB
         /// </summary>
         public bool InCollection { get; set; }
 
+        /// <summary>
+        /// Update this card in the database.
+        /// </summary>
+        /// <param name="faction">The updated faction to which this card belongs.</param>
+        /// <param name="name">The card's updated name.</param>
+        /// <param name="position">The card's updated board position.</param>
+        /// <param name="strength">The card's updated strength value.</param>
+        /// <param name="ability">The card's updated special ability.</param>
+        /// <param name="type">The card's updated type.</param>
+        /// <param name="inCollection">updated collection status.</param>
         public void Update(Factions faction, string name, Positions position, int strength, Ability ability, Types type, bool inCollection)
         {
             Faction = faction;
@@ -94,6 +104,24 @@ namespace GwentDB
             Position = position;
             Strength = strength;
             Ability = ability;
+            Type = type;
+            InCollection = inCollection;
+        }
+        /// <summary>
+        /// Update this card in the database.
+        /// </summary>
+        /// <param name="faction">The updated faction to which this card belongs.</param>
+        /// <param name="name">The card's updated name.</param>
+        /// <param name="position">The card's updated board position.</param>
+        /// <param name="strength">The card's updated strength value.</param>
+        /// <param name="type">The card's updated type.</param>
+        /// <param name="inCollection">updated collection status.</param>
+        public void Update(Factions faction, string name, Positions position, int strength, Types type, bool inCollection)
+        {
+            Faction = faction;
+            Name = name;
+            Position = position;
+            Strength = strength;
             Type = type;
             InCollection = inCollection;
         }

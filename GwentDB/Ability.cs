@@ -17,10 +17,7 @@ namespace GwentDB
         /// Special card ability.
         /// </summary>
         /// <param name="ability">The name of the ability.</param>
-        public Ability(string ability)
-        {
-            Name = ability;
-        }
+        public Ability(string ability) => Name = ability;
 
         /// <summary>
         /// The ability's id in the database.
@@ -31,9 +28,10 @@ namespace GwentDB
         /// </summary>
         public string Name { get; set; }
 
-        public void Update(string ability)
-        {
-            Name = ability;
-        }
+        /// <summary>
+        /// Update this ability in the database.
+        /// </summary>
+        /// <param name="ability">The updated ability name.</param>
+        public void Update(string ability) => Name = ability;
     }
 }

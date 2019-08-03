@@ -20,7 +20,7 @@ namespace GwentDB
     /// </summary>
     public partial class MainWindow : Window
     {
-        GwentContext context = new GwentContext();
+        readonly GwentContext context = new GwentContext();
         List<Card> Cards => context.Cards.ToList();
         List<Ability> Abilities => context.Abilities.ToList();
         Card selectedCard;
@@ -77,6 +77,11 @@ namespace GwentDB
             }
         }
 
+        /// <summary>
+        /// Update the selected card in the database.
+        /// </summary>
+        /// <param name="sender">The sender of the event.</param>
+        /// <param name="e">The event itself.</param>
         private void ButtonUpdateCard_Click(object sender, RoutedEventArgs e)
         {
             if(dataGridCards.SelectedItem != null)
@@ -136,6 +141,11 @@ namespace GwentDB
             }
         }
 
+        /// <summary>
+        /// Update the selected ability in the database.
+        /// </summary>
+        /// <param name="sender">The sender of the event.</param>
+        /// <param name="e">The event itself.</param>
         private void ButtonUpdateAbility_Click(object sender, RoutedEventArgs e)
         {
             if(comboBoxAbilities.SelectedItem != null)
@@ -152,6 +162,11 @@ namespace GwentDB
             }
         }
 
+        /// <summary>
+        /// Fill textBoxAbility with the selected ability.
+        /// </summary>
+        /// <param name="sender">The sender of the event.</param>
+        /// <param name="e">The event itself.</param>
         private void ComboBoxAbilities_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if(comboBoxAbilities.SelectedItem != null)
