@@ -30,5 +30,10 @@ namespace GwentDB
         /// The name of the ability.
         /// </summary>
         public string Name { get; set; }
+
+        public void Update(string ability)
+        {
+            Name = ability;
+        }
     }
 }

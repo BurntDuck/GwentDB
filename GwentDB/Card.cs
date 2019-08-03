@@ -86,5 +86,16 @@ namespace GwentDB
         /// Whether the card is in the user's collection.
         /// </summary>
         public bool InCollection { get; set; }
+
+        public void Update(Factions faction, string name, Positions position, int strength, Ability ability, Types type, bool inCollection)
+        {
+            Faction = faction;
+            Name = name;
+            Position = position;
+            Strength = strength;
+            Ability = ability;
+            Type = type;
+            InCollection = inCollection;
+        }
     }
 }

@@ -48,10 +48,10 @@ namespace GwentDB
                     MessageBox.Show("Strength needs to be an integer", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 if(comboBoxAbilities.SelectedItem != null)
                 {
-                    Ability ability = (Ability)comboBoxAbilities.SelectedItem;
-                    Card card = new Card((Factions)comboBoxFactions.SelectedItem, textBoxName.Text, (Positions)comboBoxPositions.SelectedItem, strength, ability, (Types)comboBoxTypes.SelectedItem, (bool)checkBoxInCollection.IsChecked);
+                    Card card = new Card((Factions)comboBoxFactions.SelectedItem, textBoxName.Text, (Positions)comboBoxPositions.SelectedItem, strength, (Ability)comboBoxAbilities.SelectedItem, (Types)comboBoxTypes.SelectedItem, (bool)checkBoxInCollection.IsChecked);
                     context.Cards.Add(card);
                     context.SaveChanges();
+
                     dataGridCards.ItemsSource = null;
                     dataGridCards.ItemsSource = Cards;
                 }
@@ -71,8 +71,32 @@ namespace GwentDB
             {
                 context.Cards.Remove((Card)dataGridCards.SelectedItem);
                 context.SaveChanges();
+
                 dataGridCards.ItemsSource = null;
                 dataGridCards.ItemsSource = Cards;
+            }
+        }
+
+        private void ButtonUpdateCard_Click(object sender, RoutedEventArgs e)
+        {
+            if(dataGridCards.SelectedItem != null)
+            {
+                if(comboBoxFactions.SelectedItem != null && !string.IsNullOrEmpty(textBoxName.Text) && comboBoxPositions.SelectedItem != null && !string.IsNullOrEmpty(textBoxStrength.Text) && comboBoxAbilities.SelectedItem != null && comboBoxTypes.SelectedItem != null)
+                {
+                    if(!int.TryParse(textBoxStrength.Text, out int strength))
+                        MessageBox.Show("Strength needs to be an integer", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    if(comboBoxAbilities.SelectedItem != null)
+                    {
+                        Card card = context.Cards.Find(selectedCard.Id);
+                        card.Update((Factions)comboBoxFactions.SelectedItem, textBoxName.Text, (Positions)comboBoxPositions.SelectedItem, strength, (Ability)comboBoxAbilities.SelectedItem, (Types)comboBoxTypes.SelectedItem, (bool)checkBoxInCollection.IsChecked);
+                        context.SaveChanges();
+
+                        dataGridCards.ItemsSource = null;
+                        dataGridCards.ItemsSource = Cards;
+                    }
+                }
+                else
+                    MessageBox.Show("All fields needs to be filled!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -88,8 +112,10 @@ namespace GwentDB
                 Ability ability = new Ability(textBoxAbility.Text);
                 context.Abilities.Add(ability);
                 context.SaveChanges();
+
                 comboBoxAbilities.ItemsSource = null;
                 comboBoxAbilities.ItemsSource = Abilities;
+                comboBoxAbilities.SelectedItem = ability;
             }
         }
 
@@ -104,8 +130,34 @@ namespace GwentDB
             {
                 context.Abilities.Remove((Ability)comboBoxAbilities.SelectedItem);
                 context.SaveChanges();
+
                 comboBoxAbilities.ItemsSource = null;
                 comboBoxAbilities.ItemsSource = Abilities;
+            }
+        }
+
+        private void ButtonUpdateAbility_Click(object sender, RoutedEventArgs e)
+        {
+            if(comboBoxAbilities.SelectedItem != null)
+            {
+                Ability ability = (Ability)comboBoxAbilities.SelectedItem;
+                context.Abilities.Find(ability.Id).Update(textBoxAbility.Text);
+                context.SaveChanges();
+
+                comboBoxAbilities.ItemsSource = null;
+                comboBoxAbilities.ItemsSource = Abilities;
+                comboBoxAbilities.SelectedItem = ability;
+                dataGridCards.ItemsSource = null;
+                dataGridCards.ItemsSource = Cards;
+            }
+        }
+
+        private void ComboBoxAbilities_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(comboBoxAbilities.SelectedItem != null)
+            {
+                Ability ability = (Ability)comboBoxAbilities.SelectedItem;
+                textBoxAbility.Text = ability.Name;
             }
         }
 
@@ -169,35 +221,6 @@ namespace GwentDB
                 comboBoxPositions.SelectedItem = Positions.Leader;
             else if(comboBoxPositions.SelectedItem != null && (Positions)comboBoxPositions.SelectedItem == Positions.Leader)
                 comboBoxPositions.SelectedItem = null;
-        }
-
-        private void ButtonUpdateCard_Click(object sender, RoutedEventArgs e)
-        {
-            if(dataGridCards.SelectedItem != null)
-            {
-                if(comboBoxFactions.SelectedItem != null && !string.IsNullOrEmpty(textBoxName.Text) && comboBoxPositions.SelectedItem != null && !string.IsNullOrEmpty(textBoxStrength.Text) && comboBoxAbilities.SelectedItem != null && comboBoxTypes.SelectedItem != null)
-                {
-                    if(!int.TryParse(textBoxStrength.Text, out int strength))
-                        MessageBox.Show("Strength needs to be an integer", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                    if(comboBoxAbilities.SelectedItem != null)
-                    {
-                        Card card = context.Cards.Find(selectedCard.Id);
-                        card.Faction = (Factions)comboBoxFactions.SelectedItem;
-                        card.Name = textBoxName.Text;
-                        card.Position = (Positions)comboBoxPositions.SelectedItem;
-                        card.Strength = strength;
-                        card.Ability = (Ability)comboBoxAbilities.SelectedItem;
-                        card.Type = (Types)comboBoxTypes.SelectedItem;
-                        card.InCollection = (bool)checkBoxInCollection.IsChecked;
-                        context.SaveChanges();
-
-                        dataGridCards.ItemsSource = null;
-                        dataGridCards.ItemsSource = Cards;
-                    }
-                }
-                else
-                    MessageBox.Show("All fields needs to be filled!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
         }
     }
 }

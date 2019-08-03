@@ -157,13 +157,22 @@
             Width="85"
             Margin="540,264,0,0"
             Click="ButtonRemoveAbility_Click" />
+        <Button
+            x:Name="buttonUpdateAbility"
+            Content="Update Ability"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Width="85"
+            Margin="540,288,0,0"
+            Click="ButtonUpdateAbility_Click" />
         <ComboBox
             x:Name="comboBoxAbilities"
             DisplayMemberPath="Name"
             HorizontalAlignment="Left"
             Margin="415,264,0,0"
             VerticalAlignment="Top"
-            Width="120" />
+            Width="120"
+            SelectionChanged="ComboBoxAbilities_SelectionChanged" />
         <Label
             Content="Type"
             HorizontalAlignment="Left"
