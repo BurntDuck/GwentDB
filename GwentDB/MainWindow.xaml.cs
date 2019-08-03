@@ -188,6 +188,11 @@ namespace GwentDB
                 context.Cards.RemoveRange(context.Cards);
                 context.Abilities.RemoveRange(context.Abilities);
                 context.SaveChanges();
+
+                comboBoxAbilities.ItemsSource = null;
+                comboBoxAbilities.ItemsSource = Abilities;
+                dataGridCards.ItemsSource = null;
+                dataGridCards.ItemsSource = Cards;
             }
         }
 
@@ -236,6 +241,126 @@ namespace GwentDB
                 comboBoxPositions.SelectedItem = Positions.Leader;
             else if(comboBoxPositions.SelectedItem != null && (Positions)comboBoxPositions.SelectedItem == Positions.Leader)
                 comboBoxPositions.SelectedItem = null;
+        }
+
+        /// <summary>
+        /// Populates the database with sample data.
+        /// </summary>
+        /// <param name="sender">The sender of the event.</param>
+        /// <param name="e">The event itself.</param>
+        private void ButtonAutoPoulate_Click(object sender, RoutedEventArgs e)
+        {
+            if(MessageBox.Show("Do you want to populate the database with sample data?\nThis will delete all previous entries permanently!", "Auto populate", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
+                List<Ability> abilities = new List<Ability>()
+                {
+                new Ability("Agile"),
+                new Ability("Bond"),
+                new Ability("Leader"),
+                new Ability("Medic"),
+                new Ability("Morale"),
+                new Ability("Muster"),
+                new Ability("Scorch"),
+                new Ability("Spy")
+                };
+                context.Abilities.RemoveRange(context.Abilities);
+                context.Abilities.AddRange(abilities);
+
+                List<Card> cards = new List<Card>()
+                {
+                new Card(Factions.Neutral, "Geralt of Rivia", Positions.Melee, 15, Types.Hero, true),
+                new Card(Factions.Neutral, "Cirilla Fiona Elen Raianno", Positions.Melee, 15, Types.Hero, true),
+                new Card(Factions.Neutral, "Vesemir", Positions.Melee, 15, Types.Normal, true),
+                new Card(Factions.Neutral, "Yennefer of Vengerberg", Positions.Archer, 15, abilities[2], Types.Hero, false),
+                new Card(Factions.Neutral, "Triss Merigold", Positions.Melee, 7, Types.Hero, false),
+                new Card(Factions.Neutral, "Dandelion", Positions.Melee, 2, abilities[1], Types.Normal, false),
+                new Card(Factions.Neutral, "Zoltan Chivay", Positions.Melee, 5, Types.Normal, false),
+                new Card(Factions.Neutral, "Emiel Regis Rohellec Terzieff", Positions.Melee, 5, Types.Normal, false),
+                new Card(Factions.Neutral, "Villentretenmerth", Positions.Melee, 7, abilities[6], Types.Normal, false),
+                new Card(Factions.Neutral, "Avallac'h", Positions.Melee, 0, abilities[7], Types.Hero, false),
+                new Card(Factions.Neutral, "Decoy", Positions.Any, 0, Types.Normal, true),
+                new Card(Factions.Neutral, "Commander's Horn", Positions.Any, 0, Types.Normal, false),
+                new Card(Factions.Neutral, "Scorch", Positions.Any, 0, Types.Normal, false),
+                new Card(Factions.Neutral, "Biting Frost", Positions.Melee, 0, Types.Normal, false),
+                new Card(Factions.Neutral, "Impenetrable Fog", Positions.Archer, 0, Types.Normal, false),
+                new Card(Factions.Neutral, "Torrential Rain", Positions.Siege, 0, Types.Normal, false),
+                new Card(Factions.Neutral, "Clear Weather", Positions.Any, 0, Types.Normal, true),
+
+                new Card(Factions.NorthernRealms, "The Steel Forged", Positions.Leader, 0, abilities[3], Types.Leader, true),
+                new Card(Factions.NorthernRealms, "The Siegemaster", Positions.Leader, 0, abilities[3], Types.Leader, true),
+                new Card(Factions.NorthernRealms, "Lord Commander of the North", Positions.Leader, 0, abilities[3], Types.Leader, false),
+                new Card(Factions.NorthernRealms, "King of Temeria", Positions.Leader, 0, abilities[3], Types.Leader, true),
+
+                new Card(Factions.NorthernRealms, "Vernon Roche", Positions.Melee, 10, Types.Hero, true),
+                new Card(Factions.NorthernRealms, "John Natalis", Positions.Melee, 10, Types.Hero, false),
+                new Card(Factions.NorthernRealms, "Esterad Thyssen", Positions.Melee, 10, Types.Hero, false),
+                new Card(Factions.NorthernRealms, "Philippa Eilhart", Positions.Archer, 10, Types.Hero, true),
+                new Card(Factions.NorthernRealms, "Thaler", Positions.Siege, 1, Types.Normal, false),
+                new Card(Factions.NorthernRealms, "Ves", Positions.Melee, 5, Types.Normal, false),
+                new Card(Factions.NorthernRealms, "Siegfried of Denesle", Positions.Melee, 5, Types.Normal, false),
+                new Card(Factions.NorthernRealms, "Yarpen Zigrin", Positions.Melee, 2, Types.Normal, false),
+                new Card(Factions.NorthernRealms, "Sigismund Dijkstra", Positions.Melee, 4, abilities[7], Types.Normal, false),
+                new Card(Factions.NorthernRealms, "Keira Metz", Positions.Archer, 5, Types.Hero, false),
+                new Card(Factions.NorthernRealms, "Síle de Tansarville", Positions.Archer, 5, Types.Normal, false),
+                new Card(Factions.NorthernRealms, "Sabrina Glevissig", Positions.Archer, 4, Types.Normal, false),
+                new Card(Factions.NorthernRealms, "Sheldon Skaggs", Positions.Archer, 4, Types.Normal, false),
+                new Card(Factions.NorthernRealms, "Dethmold", Positions.Archer, 6, Types.Normal, true),
+                new Card(Factions.NorthernRealms, "Prince Stennis", Positions.Melee, 5, abilities[7], Types.Normal, true),
+                new Card(Factions.NorthernRealms, "Trebuchet", Positions.Siege, 6, Types.Normal, true),
+                new Card(Factions.NorthernRealms, "Crinfrid Reavers Dragon Hunter", Positions.Archer, 5, abilities[2], Types.Normal, false),
+                new Card(Factions.NorthernRealms, "Redanian Foot Soldier", Positions.Melee, 1, Types.Normal, false),
+                new Card(Factions.NorthernRealms, "Catapult", Positions.Siege, 8, abilities[2], Types.Normal, false),
+                new Card(Factions.NorthernRealms, "Ballista", Positions.Siege, 6, Types.Normal, false),
+                new Card(Factions.NorthernRealms, "Kaedweni Siege Expert", Positions.Siege, 1, abilities[5], Types.Normal, false),
+                new Card(Factions.NorthernRealms, "Blue Stripes Commando", Positions.Melee, 4, abilities[2], Types.Normal, false),
+                new Card(Factions.NorthernRealms, "Siege Tower", Positions.Siege, 6, Types.Normal, false),
+                new Card(Factions.NorthernRealms, "Dun Banner Medic", Positions.Siege, 5, abilities[4], Types.Normal, false),
+
+                new Card(Factions.Niflgaard, "The Relentless", Positions.Leader, 0, abilities[3], Types.Leader, true),
+                new Card(Factions.Niflgaard, "The White Flame", Positions.Leader, 0, abilities[3], Types.Leader, false),
+                new Card(Factions.Niflgaard, "The Emperor of Niflgaard", Positions.Leader, 0, abilities[3], Types.Leader, false),
+                new Card(Factions.Niflgaard, "His Imperial Majesty", Positions.Leader, 0, abilities[3], Types.Leader, true),
+
+                new Card(Factions.Niflgaard, "Letho of Gulet", Positions.Melee, 10, Types.Hero, true),
+                new Card(Factions.Niflgaard, "Menno Coehoorn", Positions.Melee, 10, Types.Hero, false),
+                new Card(Factions.Niflgaard, "Morvran Voorhis", Positions.Siege, 10, Types.Hero, false),
+                new Card(Factions.Niflgaard, "Tibor Eggebracht", Positions.Archer, 10, Types.Hero, true),
+                new Card(Factions.Niflgaard, "Albrich", Positions.Archer, 2, Types.Normal, false),
+                new Card(Factions.Niflgaard, "Assire var Anahid", Positions.Archer, 6, Types.Normal, false),
+                new Card(Factions.Niflgaard, "Cynthia", Positions.Archer, 4, Types.Normal, true),
+                new Card(Factions.Niflgaard, "Fringilla Vigo", Positions.Archer, 6, Types.Normal, false),
+                new Card(Factions.Niflgaard, "Morteisen", Positions.Melee, 3, Types.Normal, false),
+                new Card(Factions.Niflgaard, "Rainfarn", Positions.Melee, 4, Types.Normal, false),
+                new Card(Factions.Niflgaard, "Renuald aep Matsen", Positions.Archer, 5, Types.Normal, false),
+                new Card(Factions.Niflgaard, "Rotten Mangonel", Positions.Siege, 3, Types.Normal, false),
+                new Card(Factions.Niflgaard, "Shilard Fitz-Oesterlen", Positions.Melee, 7, abilities[7], Types.Normal, false),
+                new Card(Factions.Niflgaard, "Stefan Skellen", Positions.Melee, 9, abilities[7], Types.Normal, false),
+                new Card(Factions.Niflgaard, "Sweers", Positions.Archer, 2, Types.Normal, false),
+                new Card(Factions.Niflgaard, "Vanhemar", Positions.Archer, 4, Types.Normal, false),
+                new Card(Factions.Niflgaard, "Vattier de Rideaux", Positions.Melee, 4, abilities[7], Types.Normal, false),
+                new Card(Factions.Niflgaard, "Vreemde", Positions.Melee, 2, Types.Normal, false),
+                new Card(Factions.Niflgaard, "Cahir Mawr Dyffryn aep Ceallach", Positions.Melee, 6, Types.Normal, false),
+                new Card(Factions.Niflgaard, "Puttkammer", Positions.Archer, 3, Types.Normal, true),
+                new Card(Factions.Niflgaard, "Etolian Auxiliary Archers", Positions.Archer, 1, abilities[4], Types.Normal, false),
+                new Card(Factions.Niflgaard, "Black Infantry Archer", Positions.Archer, 1, Types.Normal, false),
+                new Card(Factions.Niflgaard, "Siege Technican", Positions.Siege, 0, abilities[4], Types.Normal, true),
+                new Card(Factions.Niflgaard, "Heavy Zerrikanian Fire Scorpion", Positions.Siege, 10, Types.Normal, false),
+                new Card(Factions.Niflgaard, "Zerrikanian Fire Scorpion", Positions.Siege, 10, Types.Normal, true),
+                new Card(Factions.Niflgaard, "Impera Brigade", Positions.Melee, 3, abilities[2], Types.Normal, false),
+                new Card(Factions.Niflgaard, "Nausicaa Cavalry Brigade", Positions.Melee, 2, abilities[2], Types.Normal, false),
+                new Card(Factions.Niflgaard, "Siege Engineer", Positions.Siege, 6, Types.Normal, false),
+                new Card(Factions.Niflgaard, "Young Emissary", Positions.Melee, 5, abilities[2], Types.Normal, false)
+                };
+
+                context.Cards.RemoveRange(context.Cards);
+                context.Cards.AddRange(cards);
+                context.SaveChanges();
+
+                comboBoxAbilities.ItemsSource = null;
+                comboBoxAbilities.ItemsSource = Abilities;
+                dataGridCards.ItemsSource = null;
+                dataGridCards.ItemsSource = Cards;
+            }
         }
     }
 }

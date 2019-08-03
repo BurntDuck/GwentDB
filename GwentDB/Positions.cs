@@ -13,7 +13,7 @@ namespace GwentDB
     {
         Melee,
         Archer,
-        Artillery,
+        Siege,
         Any,
         Leader
     }
