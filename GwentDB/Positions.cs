@@ -14,6 +14,7 @@ namespace GwentDB
         Melee,
         Archer,
         Artillery,
-        Any
+        Any,
+        Leader
     }
 }

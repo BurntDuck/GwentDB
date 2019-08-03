@@ -12,12 +12,13 @@ namespace GwentDB
     /// </summary>
     public enum Factions
     {
+        Monsters,
         Neutral,
         [Description("Northern Realms")]
         NorthernRealms,
         Niflgaard,
         [Description("Scoia'tael")]
         ScoiaTael,
-        Monsters
+        Skellige
     }
 }

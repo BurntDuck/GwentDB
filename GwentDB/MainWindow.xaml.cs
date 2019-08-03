@@ -21,8 +21,9 @@ namespace GwentDB
     public partial class MainWindow : Window
     {
         GwentContext context = new GwentContext();
-        public List<Card> Cards => context.Cards.ToList();
-        public List<Ability> Abilities => context.Abilities.ToList();
+        List<Card> Cards => context.Cards.ToList();
+        List<Ability> Abilities => context.Abilities.ToList();
+        Card selectedCard;
 
         public MainWindow()
         {
@@ -132,14 +133,70 @@ namespace GwentDB
         {
             if(dataGridCards.SelectedItem!= null)
             {
-                Card card = (Card)dataGridCards.SelectedItem;
-                comboBoxFactions.SelectedItem = card.Faction;
-                textBoxName.Text = card.Name;
-                comboBoxPositions.SelectedItem = card.Position;
-                textBoxStrength.Text = card.Strength.ToString();
-                comboBoxAbilities.SelectedItem = card.Ability;
-                comboBoxTypes.SelectedItem = card.Type;
-                checkBoxInCollection.IsChecked = card.InCollection;
+                selectedCard = (Card)dataGridCards.SelectedItem;
+                comboBoxFactions.SelectedItem = selectedCard.Faction;
+                textBoxName.Text = selectedCard.Name;
+                comboBoxPositions.SelectedItem = selectedCard.Position;
+                textBoxStrength.Text = selectedCard.Strength.ToString();
+                comboBoxAbilities.SelectedItem = selectedCard.Ability;
+                comboBoxTypes.SelectedItem = selectedCard.Type;
+                checkBoxInCollection.IsChecked = selectedCard.InCollection;
+            }
+        }
+
+        /// <summary>
+        /// Ensures either both comboBoxPositions and comboBoxTypes have selected "Leader" or none of the have.
+        /// </summary>
+        /// <param name="sender">The sender of the event.</param>
+        /// <param name="e">The event itself.</param>
+        private void ComboBoxPositions_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(comboBoxPositions.SelectedItem != null && (Positions)comboBoxPositions.SelectedItem == Positions.Leader)
+                comboBoxTypes.SelectedItem = Types.Leader;
+            else if(comboBoxTypes.SelectedItem != null && (Types)comboBoxTypes.SelectedItem == Types.Leader)
+                comboBoxTypes.SelectedItem = null;
+        }
+
+
+        /// <summary>
+        /// Ensures either both comboBoxTypes and comboBoxPositions have selected "Leader" or none of the have.
+        /// </summary>
+        /// <param name="sender">The sender of the event.</param>
+        /// <param name="e">The event itself.</param>
+        private void ComboBoxTypes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(comboBoxTypes.SelectedItem != null && (Types)comboBoxTypes.SelectedItem == Types.Leader)
+                comboBoxPositions.SelectedItem = Positions.Leader;
+            else if(comboBoxPositions.SelectedItem != null && (Positions)comboBoxPositions.SelectedItem == Positions.Leader)
+                comboBoxPositions.SelectedItem = null;
+        }
+
+        private void ButtonUpdateCard_Click(object sender, RoutedEventArgs e)
+        {
+            if(dataGridCards.SelectedItem != null)
+            {
+                if(comboBoxFactions.SelectedItem != null && !string.IsNullOrEmpty(textBoxName.Text) && comboBoxPositions.SelectedItem != null && !string.IsNullOrEmpty(textBoxStrength.Text) && comboBoxAbilities.SelectedItem != null && comboBoxTypes.SelectedItem != null)
+                {
+                    if(!int.TryParse(textBoxStrength.Text, out int strength))
+                        MessageBox.Show("Strength needs to be an integer", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    if(comboBoxAbilities.SelectedItem != null)
+                    {
+                        Card card = context.Cards.Find(selectedCard.Id);
+                        card.Faction = (Factions)comboBoxFactions.SelectedItem;
+                        card.Name = textBoxName.Text;
+                        card.Position = (Positions)comboBoxPositions.SelectedItem;
+                        card.Strength = strength;
+                        card.Ability = (Ability)comboBoxAbilities.SelectedItem;
+                        card.Type = (Types)comboBoxTypes.SelectedItem;
+                        card.InCollection = (bool)checkBoxInCollection.IsChecked;
+                        context.SaveChanges();
+
+                        dataGridCards.ItemsSource = null;
+                        dataGridCards.ItemsSource = Cards;
+                    }
+                }
+                else
+                    MessageBox.Show("All fields needs to be filled!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

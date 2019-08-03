@@ -6,6 +6,11 @@
         xmlns:local="clr-namespace:GwentDB"
         mc:Ignorable="d"
         Title="GwentDB" Height="450" Width="800">
+    <Window.Resources>
+        <local:EnumDescriptionConverter
+            x:Key="descConverter">
+        </local:EnumDescriptionConverter>
+    </Window.Resources>
     <Grid>
         <DataGrid
             x:Name="dataGridCards"
@@ -56,6 +61,14 @@
             VerticalAlignment="Top"
             Width="80"
             Click="ButtonRemoveCard_Click" />
+        <Button
+            x:Name="buttonUpdateCard"
+            Content="Update Card"
+            HorizontalAlignment="Left"
+            Margin="540,84,0,0"
+            VerticalAlignment="Top"
+            Width="80"
+            Click="ButtonUpdateCard_Click" />
         <Label
             Content="Faction"
             HorizontalAlignment="Left"
@@ -66,7 +79,14 @@
             HorizontalAlignment="Left"
             Margin="415,36,0,0"
             VerticalAlignment="Top"
-            Width="120" />
+            Width="120">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock
+                        Text="{Binding Converter={StaticResource descConverter}}"></TextBlock>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
         <Label
             Content="Name"
             HorizontalAlignment="Left"
@@ -91,7 +111,8 @@
             HorizontalAlignment="Left"
             Margin="415,136,0,0"
             VerticalAlignment="Top"
-            Width="120" />
+            Width="120"
+            SelectionChanged="ComboBoxPositions_SelectionChanged" />
         <Label
             Content="Strength"
             HorizontalAlignment="Left"
@@ -153,7 +174,8 @@
             HorizontalAlignment="Left"
             Margin="415,316,0,0"
             VerticalAlignment="Top"
-            Width="120" />
+            Width="120"
+            SelectionChanged="ComboBoxTypes_SelectionChanged" />
         <CheckBox
             x:Name="checkBoxInCollection"
             Content="In Collection"
