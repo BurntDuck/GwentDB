@@ -10,12 +10,12 @@
         <DataGrid
             x:Name="dataGridCards"
             AutoGenerateColumns="False"
-            Height="200"
             HorizontalAlignment="Left"
             IsReadOnly="True"
             Margin="10"
-            VerticalAlignment="Top"
-            Width="400">
+            VerticalAlignment="Stretch"
+            Width="400"
+            SelectionChanged="DataGridCards_SelectionChanged">
             <DataGrid.Columns>
                 <DataGridTextColumn
                     Header="Faction"
@@ -35,6 +35,9 @@
                 <DataGridTextColumn
                     Header="Type"
                     Binding="{Binding Type}" />
+                <DataGridCheckBoxColumn
+                    Header="In Collection"
+                    Binding="{Binding InCollection}" />
             </DataGrid.Columns>
         </DataGrid>
         <Button
@@ -58,13 +61,10 @@
             HorizontalAlignment="Left"
             Margin="415,10,0,0"
             VerticalAlignment="Top" />
-        <TextBox
-            x:Name="textBoxFaction"
+        <ComboBox
+            x:Name="comboBoxFactions"
             HorizontalAlignment="Left"
-            Height="23"
             Margin="415,36,0,0"
-            TextWrapping="Wrap"
-            Text=""
             VerticalAlignment="Top"
             Width="120" />
         <Label
@@ -86,13 +86,10 @@
             HorizontalAlignment="Left"
             Margin="415,110,0,0"
             VerticalAlignment="Top" />
-        <TextBox
-            x:Name="textBoxPosition"
+        <ComboBox
+            x:Name="comboBoxPositions"
             HorizontalAlignment="Left"
-            Height="23"
             Margin="415,136,0,0"
-            TextWrapping="Wrap"
-            Text=""
             VerticalAlignment="Top"
             Width="120" />
         <Label
@@ -151,15 +148,18 @@
             HorizontalAlignment="Left"
             Margin="415,290,0,0"
             VerticalAlignment="Top" />
-        <TextBox
-            x:Name="textBoxType"
+        <ComboBox
+            x:Name="comboBoxTypes"
             HorizontalAlignment="Left"
-            Height="23"
             Margin="415,316,0,0"
-            TextWrapping="Wrap"
-            Text=""
             VerticalAlignment="Top"
             Width="120" />
+        <CheckBox
+            x:Name="checkBoxInCollection"
+            Content="In Collection"
+            HorizontalAlignment="Left"
+            Margin="415,350,0,0"
+            VerticalAlignment="Top" />
         <Button
             x:Name="buttonClear"
             Content="Clear"

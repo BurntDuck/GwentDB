@@ -22,67 +22,124 @@ namespace GwentDB
     {
         GwentContext context = new GwentContext();
         public List<Card> Cards => context.Cards.ToList();
-        public List<Collection> Collections => context.Collections.ToList();
         public List<Ability> Abilities => context.Abilities.ToList();
 
         public MainWindow()
         {
             InitializeComponent();
+            comboBoxFactions.ItemsSource = Enum.GetValues(typeof(Factions)).Cast<Factions>();
+            comboBoxPositions.ItemsSource = Enum.GetValues(typeof(Positions)).Cast<Positions>();
+            comboBoxTypes.ItemsSource = Enum.GetValues(typeof(Types)).Cast<Types>();
             comboBoxAbilities.ItemsSource = Abilities;
             dataGridCards.ItemsSource = Cards;
         }
 
+        /// <summary>
+        /// Add a Gwent card to the database.
+        /// </summary>
+        /// <param name="sender">The sender of the event.</param>
+        /// <param name="e">The event itself.</param>
         private void ButtonAddCard_Click(object sender, RoutedEventArgs e)
         {
-            if (!int.TryParse(textBoxStrength.Text, out int strength))
-                MessageBox.Show("Strength needs to be an integer", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-            if(comboBoxAbilities.SelectedItem != null)
+            if(comboBoxFactions.SelectedItem != null && !string.IsNullOrEmpty(textBoxName.Text) && comboBoxPositions.SelectedItem != null && !string.IsNullOrEmpty(textBoxStrength.Text) && comboBoxAbilities.SelectedItem != null && comboBoxTypes.SelectedItem != null)
             {
-                Ability ability = (Ability)comboBoxAbilities.SelectedItem;
-                Card card = new Card(textBoxFaction.Text, textBoxName.Text, textBoxPosition.Text, strength, ability, textBoxType.Text);
-                context.Cards.Add(card);
-                context.SaveChanges();
-                dataGridCards.Items.Refresh();
+                if(!int.TryParse(textBoxStrength.Text, out int strength))
+                    MessageBox.Show("Strength needs to be an integer", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                if(comboBoxAbilities.SelectedItem != null)
+                {
+                    Ability ability = (Ability)comboBoxAbilities.SelectedItem;
+                    Card card = new Card((Factions)comboBoxFactions.SelectedItem, textBoxName.Text, (Positions)comboBoxPositions.SelectedItem, strength, ability, (Types)comboBoxTypes.SelectedItem, (bool)checkBoxInCollection.IsChecked);
+                    context.Cards.Add(card);
+                    context.SaveChanges();
+                    dataGridCards.ItemsSource = null;
+                    dataGridCards.ItemsSource = Cards;
+                }
             }
+            else
+                MessageBox.Show("All fields needs to be filled!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
 
+        /// <summary>
+        /// Remove a gwent card from the database.
+        /// </summary>
+        /// <param name="sender">The sender of the event.</param>
+        /// <param name="e">The event itself.</param>
         private void ButtonRemoveCard_Click(object sender, RoutedEventArgs e)
         {
             if(dataGridCards.SelectedItem != null)
             {
                 context.Cards.Remove((Card)dataGridCards.SelectedItem);
                 context.SaveChanges();
+                dataGridCards.ItemsSource = null;
+                dataGridCards.ItemsSource = Cards;
             }
         }
 
+        /// <summary>
+        /// Add a card abaility to the database.
+        /// </summary>
+        /// <param name="sender">The sender of the event.</param>
+        /// <param name="e">The event itself.</param>
         private void ButtonAddAbility_Click(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(textBoxAbility.Text))
+            if(!string.IsNullOrEmpty(textBoxAbility.Text))
             {
                 Ability ability = new Ability(textBoxAbility.Text);
                 context.Abilities.Add(ability);
                 context.SaveChanges();
-                comboBoxAbilities.Items.Refresh();
+                comboBoxAbilities.ItemsSource = null;
+                comboBoxAbilities.ItemsSource = Abilities;
             }
         }
 
+        /// <summary>
+        /// Remove a card ability from the databse.
+        /// </summary>
+        /// <param name="sender">The sender of the event.</param>
+        /// <param name="e">The event itself.</param>
         private void ButtonRemoveAbility_Click(object sender, RoutedEventArgs e)
         {
             if(comboBoxAbilities.SelectedItem != null)
             {
                 context.Abilities.Remove((Ability)comboBoxAbilities.SelectedItem);
                 context.SaveChanges();
+                comboBoxAbilities.ItemsSource = null;
+                comboBoxAbilities.ItemsSource = Abilities;
             }
         }
 
+        /// <summary>
+        /// Clear the database of all data.
+        /// </summary>
+        /// <param name="sender">The sender of the event.</param>
+        /// <param name="e">The event itself.</param>
         private void ButtonClear_Click(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Are you sure, you want to clear the database?", "Are you sure?", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            if(MessageBox.Show("Are you sure, you want to clear the database?\nThis action cannot be undone.", "Warning!", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
             {
                 context.Cards.RemoveRange(context.Cards);
-                context.Collections.RemoveRange(context.Collections);
                 context.Abilities.RemoveRange(context.Abilities);
                 context.SaveChanges();
+            }
+        }
+
+        /// <summary>
+        /// Fill the text- and comboboxes with the data of the selected card.
+        /// </summary>
+        /// <param name="sender">The sender of the event.</param>
+        /// <param name="e">The event itself.</param>
+        private void DataGridCards_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(dataGridCards.SelectedItem!= null)
+            {
+                Card card = (Card)dataGridCards.SelectedItem;
+                comboBoxFactions.SelectedItem = card.Faction;
+                textBoxName.Text = card.Name;
+                comboBoxPositions.SelectedItem = card.Position;
+                textBoxStrength.Text = card.Strength.ToString();
+                comboBoxAbilities.SelectedItem = card.Ability;
+                comboBoxTypes.SelectedItem = card.Type;
+                checkBoxInCollection.IsChecked = card.InCollection;
             }
         }
     }
