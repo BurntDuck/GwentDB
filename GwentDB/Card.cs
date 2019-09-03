@@ -85,6 +85,10 @@ namespace GwentDB
                     else
                         throw new ArgumentException();
                 }
+                else
+                {
+                    position = value;
+                }
             }
         }
         /// <summary>
@@ -109,6 +113,10 @@ namespace GwentDB
                         type = value;
                     else
                         throw new ArgumentException();
+                }
+                else
+                {
+                    type = value;
                 }
             }
         }
