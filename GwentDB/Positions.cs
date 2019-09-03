@@ -11,10 +11,11 @@ namespace GwentDB
     /// </summary>
     public enum Positions
     {
-        Melee,
-        Archer,
-        Siege,
-        Any,
-        Leader
+        Unknown = 0,
+        Melee = 1,
+        Archer = 2,
+        Siege = 3,
+        Any = 4,
+        Leader = 5
     }
 }

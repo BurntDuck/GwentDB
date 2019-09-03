@@ -11,8 +11,9 @@ namespace GwentDB
     /// </summary>
     public enum Types
     {
-        Hero,
-        Leader,
-        Normal
+        Unknown = 0,
+        Normal = 1,
+        Hero = 2,
+        Leader = 3
     }
 }

@@ -48,12 +48,19 @@ namespace GwentDB
                     MessageBox.Show("Strength needs to be an integer", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 if(comboBoxAbilities.SelectedItem != null)
                 {
-                    Card card = new Card((Factions)comboBoxFactions.SelectedItem, textBoxName.Text, (Positions)comboBoxPositions.SelectedItem, strength, (Ability)comboBoxAbilities.SelectedItem, (Types)comboBoxTypes.SelectedItem, (bool)checkBoxInCollection.IsChecked);
-                    context.Cards.Add(card);
-                    context.SaveChanges();
+                    try
+                    {
+                        Card card = new Card((Factions)comboBoxFactions.SelectedItem, textBoxName.Text, (Positions)comboBoxPositions.SelectedItem, strength, (Ability)comboBoxAbilities.SelectedItem, (Types)comboBoxTypes.SelectedItem, (bool)checkBoxInCollection.IsChecked);
+                        context.Cards.Add(card);
+                        context.SaveChanges();
 
-                    dataGridCards.ItemsSource = null;
-                    dataGridCards.ItemsSource = Cards;
+                        dataGridCards.ItemsSource = null;
+                        dataGridCards.ItemsSource = Cards;
+                    }
+                    catch(ArgumentException)
+                    {
+                        MessageBox.Show("Error while creating new card", "\"Type\" and \"Position\" must both have value \"Leader\" or none of them can");
+                    }
                 }
             }
             else
@@ -92,12 +99,21 @@ namespace GwentDB
                         MessageBox.Show("Strength needs to be an integer", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                     if(comboBoxAbilities.SelectedItem != null)
                     {
-                        Card card = context.Cards.Find(selectedCard.Id);
-                        card.Update((Factions)comboBoxFactions.SelectedItem, textBoxName.Text, (Positions)comboBoxPositions.SelectedItem, strength, (Ability)comboBoxAbilities.SelectedItem, (Types)comboBoxTypes.SelectedItem, (bool)checkBoxInCollection.IsChecked);
-                        context.SaveChanges();
+                        try
+                        {
+                            Card card = context.Cards.Find(selectedCard.Id);
+                            card.Update((Factions)comboBoxFactions.SelectedItem, textBoxName.Text, (Positions)comboBoxPositions.SelectedItem, strength, (Ability)comboBoxAbilities.SelectedItem, (Types)comboBoxTypes.SelectedItem, (bool)checkBoxInCollection.IsChecked);
+                            context.SaveChanges();
 
-                        dataGridCards.ItemsSource = null;
-                        dataGridCards.ItemsSource = Cards;
+                            dataGridCards.ItemsSource = null;
+                            dataGridCards.ItemsSource = Cards;
+                            dataGridCards.SelectedItem = card;
+                            dataGridCards.ScrollIntoView(card);
+                        }
+                        catch(ArgumentException)
+                        {
+                            MessageBox.Show("Error while updating card", "\"Type\" and \"Position\" must both have value \"Leader\" or none of them can");
+                        }
                     }
                 }
                 else
@@ -271,7 +287,7 @@ namespace GwentDB
                 new Card(Factions.Neutral, "Geralt of Rivia", Positions.Melee, 15, Types.Hero, true),
                 new Card(Factions.Neutral, "Cirilla Fiona Elen Raianno", Positions.Melee, 15, Types.Hero, true),
                 new Card(Factions.Neutral, "Vesemir", Positions.Melee, 15, Types.Normal, true),
-                new Card(Factions.Neutral, "Yennefer of Vengerberg", Positions.Archer, 15, abilities[2], Types.Hero, false),
+                new Card(Factions.Neutral, "Yennefer of Vengerberg", Positions.Archer, 15, abilities[3], Types.Hero, false),
                 new Card(Factions.Neutral, "Triss Merigold", Positions.Melee, 7, Types.Hero, false),
                 new Card(Factions.Neutral, "Dandelion", Positions.Melee, 2, abilities[1], Types.Normal, false),
                 new Card(Factions.Neutral, "Zoltan Chivay", Positions.Melee, 5, Types.Normal, false),
@@ -307,12 +323,12 @@ namespace GwentDB
                 new Card(Factions.NorthernRealms, "Dethmold", Positions.Archer, 6, Types.Normal, true),
                 new Card(Factions.NorthernRealms, "Prince Stennis", Positions.Melee, 5, abilities[7], Types.Normal, true),
                 new Card(Factions.NorthernRealms, "Trebuchet", Positions.Siege, 6, Types.Normal, true),
-                new Card(Factions.NorthernRealms, "Crinfrid Reavers Dragon Hunter", Positions.Archer, 5, abilities[2], Types.Normal, false),
+                new Card(Factions.NorthernRealms, "Crinfrid Reavers Dragon Hunter", Positions.Archer, 5, abilities[1], Types.Normal, false),
                 new Card(Factions.NorthernRealms, "Redanian Foot Soldier", Positions.Melee, 1, Types.Normal, false),
-                new Card(Factions.NorthernRealms, "Catapult", Positions.Siege, 8, abilities[2], Types.Normal, false),
+                new Card(Factions.NorthernRealms, "Catapult", Positions.Siege, 8, abilities[1], Types.Normal, false),
                 new Card(Factions.NorthernRealms, "Ballista", Positions.Siege, 6, Types.Normal, false),
                 new Card(Factions.NorthernRealms, "Kaedweni Siege Expert", Positions.Siege, 1, abilities[5], Types.Normal, false),
-                new Card(Factions.NorthernRealms, "Blue Stripes Commando", Positions.Melee, 4, abilities[2], Types.Normal, false),
+                new Card(Factions.NorthernRealms, "Blue Stripes Commando", Positions.Melee, 4, abilities[1], Types.Normal, false),
                 new Card(Factions.NorthernRealms, "Siege Tower", Positions.Siege, 6, Types.Normal, false),
                 new Card(Factions.NorthernRealms, "Dun Banner Medic", Positions.Siege, 5, abilities[4], Types.Normal, false),
 
@@ -346,10 +362,10 @@ namespace GwentDB
                 new Card(Factions.Niflgaard, "Siege Technican", Positions.Siege, 0, abilities[4], Types.Normal, true),
                 new Card(Factions.Niflgaard, "Heavy Zerrikanian Fire Scorpion", Positions.Siege, 10, Types.Normal, false),
                 new Card(Factions.Niflgaard, "Zerrikanian Fire Scorpion", Positions.Siege, 10, Types.Normal, true),
-                new Card(Factions.Niflgaard, "Impera Brigade", Positions.Melee, 3, abilities[2], Types.Normal, false),
-                new Card(Factions.Niflgaard, "Nausicaa Cavalry Brigade", Positions.Melee, 2, abilities[2], Types.Normal, false),
+                new Card(Factions.Niflgaard, "Impera Brigade", Positions.Melee, 3, abilities[1], Types.Normal, false),
+                new Card(Factions.Niflgaard, "Nausicaa Cavalry Brigade", Positions.Melee, 2, abilities[1], Types.Normal, false),
                 new Card(Factions.Niflgaard, "Siege Engineer", Positions.Siege, 6, Types.Normal, false),
-                new Card(Factions.Niflgaard, "Young Emissary", Positions.Melee, 5, abilities[2], Types.Normal, false)
+                new Card(Factions.Niflgaard, "Young Emissary", Positions.Melee, 5, abilities[1], Types.Normal, false)
                 };
 
                 context.Cards.RemoveRange(context.Cards);

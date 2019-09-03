@@ -4,11 +4,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace GwentDB
 {
     public class Card
     {
+        private Positions position;
+        private Types type;
+
         /// <summary>
         /// A Gwent card.
         /// </summary>
@@ -69,7 +73,20 @@ namespace GwentDB
         /// <summary>
         /// The card's board position.
         /// </summary>
-        public Positions Position { get; set; }
+        public Positions Position
+        {
+            get => position;
+            set
+            {
+                if(value == Positions.Leader)
+                {
+                    if(Type == Types.Leader || Type == Types.Unknown)
+                        position = value;
+                    else
+                        throw new ArgumentException();
+                }
+            }
+        }
         /// <summary>
         /// The card's strength value.
         /// </summary>
@@ -81,7 +98,20 @@ namespace GwentDB
         /// <summary>
         /// The card's type.
         /// </summary>
-        public Types Type { get; set; }
+        public Types Type
+        {
+            get => type;
+            set
+            {
+                if(value == Types.Leader)
+                {
+                    if(Position == Positions.Leader || Position == Positions.Unknown)
+                        type = value;
+                    else
+                        throw new ArgumentException();
+                }
+            }
+        }
         /// <summary>
         /// Whether the card is in the user's collection.
         /// </summary>
